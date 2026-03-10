@@ -1,3 +1,4 @@
+print('hi')
 from http.server import SimpleHTTPRequestHandler, HTTPServer
 
 class CORSHandler(SimpleHTTPRequestHandler):
