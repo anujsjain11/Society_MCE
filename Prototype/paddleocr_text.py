@@ -18,3 +18,4 @@ def extract_ocr_data(image_path):
         res.print() # print the result of each image
         # res.save_to_img("output")
         res.save_to_json("output/paddle_ocr_result.json")
+
