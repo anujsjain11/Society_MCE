@@ -2,3 +2,4 @@
 cudnn-*.zips
 training data/*
 output/*
+llama3-Q5_K_M.gguf
