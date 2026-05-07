@@ -1,2 +1,4 @@
 .venv/*
 cudnn-*.zips
+./training data/*
+./output/*
