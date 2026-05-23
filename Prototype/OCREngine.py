@@ -1,7 +1,8 @@
 import os
 import cv2
-import paddle
 from paddleocr import PaddleOCR
+import paddle
+import numpy as np
 
 
 class OCREngine:
@@ -104,3 +105,6 @@ class OCREngine:
         ]
         
         return ocr_result
+    
+
+ocr = OCREngine()

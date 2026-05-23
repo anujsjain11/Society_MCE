@@ -1,7 +1,7 @@
 import os
 import cv2
-import paddle
 from paddleocr import PaddleOCR
+import paddle
 
 
 class OCREngine:
