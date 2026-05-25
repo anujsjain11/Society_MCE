@@ -2,6 +2,7 @@ import os
 import cv2
 from paddleocr import PaddleOCR
 import paddle
+import numpy as np
 
 
 class OCREngine:
@@ -43,13 +44,13 @@ class OCREngine:
             poly = np.array(poly, dtype=np.float32)
 
             # draw original polygon
-            cv2.polylines(
-                output,
-                [np.array(poly, dtype=np.int32)],
-                isClosed=True,
-                color=(255, 0, 0),
-                thickness=2
-            )
+            # cv2.polylines(
+            #     output,
+            #     [np.array(poly, dtype=np.int32)],
+            #     isClosed=True,
+            #     color=(255, 0, 0),
+            #     thickness=2
+            # )
 
             # bounding box
             x_min, y_min = np.min(poly, axis=0)
@@ -92,7 +93,6 @@ class OCREngine:
         downscaling_poly = self.downscaling(
             result[0]['dt_polys']
         )
-        
         # combine polygon + text + score
         ocr_result = [
             (poly, text, scores)
@@ -104,3 +104,6 @@ class OCREngine:
         ]
         
         return ocr_result
+    
+
+# ocr = OCREngine()

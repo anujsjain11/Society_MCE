@@ -12,48 +12,48 @@ class LLMParser:
             verbose=False
         )
 
-    def extract_receipt(self, ocr_result):
+    def extract_receipt(self, prompt ,ocr_result):
 
         ocr_text = "\n".join(ocr_result)
-
-        prompt = f"""
-You are a receipt extraction API.
-
-Extract receipt items from OCR text.
-
-Return ONLY valid JSON.
-No markdown.
-No explanation.
-No extra text.
-No notes.
-No python code.
-
-JSON schema:
-{{
-  "items": [
-    {{
-      "product": "string",
-      "quantity": "string",
-      "price": 0
-    }}
-  ],
-  "total_quantity": 0,
-  "total_price": 0
-}}
-
-Rules:
-- Extract ALL products
-- Merge multiline products
-- Ignore noise
-- Extract quantity separately
-- Extract total separately
-- Price must be numeric
-- Do NOT hallucinate products
-
-OCR:
-{ocr_text}
-"""
-
+        if prompt == None:
+            prompt = f"""
+                            You are a receipt extraction API.
+                            
+                            Extract receipt items from OCR text.
+                            
+                            Return ONLY valid JSON.
+                            No markdown.
+                            No explanation.
+                            No extra text.
+                            No notes.
+                            No python code.
+                            
+                            JSON schema:
+                            {{
+                              "items": [
+                                {{
+                                  "product": "string",
+                                  "quantity": "string",
+                                  "price": 0
+                                }}
+                              ],
+                              "total_quantity": 0,
+                              "total_price": 0
+                            }}
+                            
+                            Rules:
+                            - Extract ALL products
+                            - Merge multiline products
+                            - Ignore noise
+                            - Extract quantity separately
+                            - Extract total separately
+                            - Price must be numeric
+                            - Do NOT hallucinate products
+                            
+                            OCR:
+                            {ocr_text}
+                        """            
+        
         output = self.llm(
             prompt,
             max_tokens=500,

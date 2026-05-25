@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-class OCRUtils:
+class f:
 
     def __init__(self):
         pass
@@ -241,12 +241,9 @@ class OCRUtils:
                 for counter in counter_group:
 
                     if (
-                        table_header[header_index].shape
-                        == counter.shape
-                        and np.all(
-                            table_header[header_index]
-                            == counter
-                        )
+                        table_header[header_index].shape== counter.shape
+                        and 
+                        np.all(table_header[header_index]== counter)
                     ):
 
                         matched_cnt.append(
@@ -359,5 +356,63 @@ class OCRUtils:
             sorted_lines_text.append([
                 b[3] for b in line
             ])
+
+        return sorted_lines, sorted_lines_text
+
+
+    # =====================================================
+    # GROUP OCR POLY INTO LINES
+    # =====================================================
+
+    def group_ocr_into_lines_v(self, ocr_data, x_threshold=5):
+        # Step 1: compute centers
+        ocr_centers = [(ocr, self.get_center(ocr), text, score) for ocr, text, score in ocr_data]
+
+        # Step 2: sort by Y (top to bottom)
+        ocr_centers.sort(key=lambda b: b[1][1])
+
+        print("=============================================================")
+        for ocr in ocr_centers:
+            print(ocr[2])
+        print("=============================================================")
+
+        lines = []
+        current_line = []
+
+        for ocr, (cx, cy), text, score in ocr_centers:
+
+            # Use only OCR results with confidence >= 0.9
+            if score >= 0.9:
+
+                if not current_line:
+                    current_line.append((ocr, cx, cy, text, score))
+                    continue
+
+                _, _, prev_cy, _, _ = current_line[-1]
+
+                # Step 3: check if same line
+                y_width_avg = (
+                    (ocr[2][1] - ocr[0][1]) +
+                    (ocr[3][1] - ocr[1][1])
+                ) / 2
+
+                if abs(cy - prev_cy) < (y_width_avg + x_threshold):
+                    current_line.append((ocr, cx, cy, text, score))
+                else:
+                    lines.append(current_line)
+                    current_line = [(ocr, cx, cy, text, score)]
+
+        if current_line:
+            lines.append(current_line)
+
+        # Step 4: sort each line by X (left to right)
+        sorted_lines = []
+        sorted_lines_text = []
+
+        for line in lines:
+            line.sort(key=lambda b: b[1])  # sort by center x
+
+            sorted_lines.append([b[0] for b in line])
+            sorted_lines_text.append([b[3] for b in line])
 
         return sorted_lines, sorted_lines_text
