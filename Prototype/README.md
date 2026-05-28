@@ -14,6 +14,28 @@ This prototype contains experimental implementations and proof-of-concept code f
 - **OCR Structure Analyzer** - Analysis of document structure using OCR
 - **Pipeline** - Integration pipeline combining all modules
 
+## Core Approach
+
+🎯 **Text-Based Processing**
+
+The system is designed to work for **most document types** by focusing on **text content extraction and processing**. The code operates primarily on:
+
+- **Text extraction** from documents
+- **Text analysis and parsing** using LLM models
+- **Content structure understanding** based on text patterns
+
+### Table Handling
+
+📊 **Format-Agnostic Table Processing**
+
+The code handles tables **regardless of their visual structure**:
+
+- ✅ Tables **with lines/borders** are processed
+- ✅ Tables **without lines** (space-separated, tab-separated) are processed
+- ✅ **Visual formatting does NOT affect** the text extraction and parsing logic
+
+The system focuses on **extracting and understanding the text content** within tables rather than relying on visual table structure detection. This makes it robust to different table formatting styles and layouts.
+
 ## Components
 
 - `OCREngine.py` / `OCREngine.ipynb` - OCR processing module
