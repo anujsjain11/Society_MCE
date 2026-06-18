@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-class OCRStructureAnalyzer:
+class OCRUtils:
 
     def __init__(self):
         pass
@@ -365,11 +365,14 @@ class OCRStructureAnalyzer:
     # =====================================================
 
     def group_ocr_into_lines_v(self, ocr_data, x_threshold=5):
+
+        x,y=(self.get_center(ocr), text, score) for ocr, text, score in ocr_data
+        print(x,y)
         # Step 1: compute centers
         ocr_centers = [(ocr, self.get_center(ocr), text, score) for ocr, text, score in ocr_data]
 
         # Step 2: sort by Y (top to bottom)
-        ocr_centers.sort(key=lambda b: b[1][1])
+        ocr_centers.sort(key=lambda b: (b[1][0],b[1][0]))
 
         print("=============================================================")
         for ocr in ocr_centers:
