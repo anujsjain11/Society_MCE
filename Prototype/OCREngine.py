@@ -18,13 +18,17 @@ class OCREngine:
             cpu_threads=8
         )
 
-    def run_ocr(self, image_path):
+    def run_ocr(self, img,image_path):
 
         if not os.path.exists(image_path):
             print(f"{image_path} Path not found")
             return None
-
-        img = cv2.imread(image_path)
+        
+        if img is None:
+            img = cv2.imread(image_path)
+        else: 
+            pass
+        
 
         if img is None:
             print(f"{image_path} Image not found")
